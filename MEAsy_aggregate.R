@@ -300,6 +300,8 @@ file.move("MEA_analysis_index.xlsx", "./original_files/", overwrite=TRUE)
 rm("folder", "dest", "folders", "parameter_dataset")
 
 
+################################################################################
+
 
 # data QC
 
@@ -481,6 +483,12 @@ rm("elec_WT_DMSO_000",
    "elec_HET_DHPG_060",
    "elec_HET_MPEP_060")
 
+## MPEP
+well_qc_dataset <- filter(well_qc_dataset, Treatment != "MPEP")
+electrode_qc_dataset <- filter(electrode_qc_dataset, Treatment != "MPEP")
+
+
+################################################################################
 
 
 # Export spreadsheet
@@ -493,6 +501,8 @@ sheets <- list("Electrode_dataset" = electrode_dataset,
 write_xlsx(sheets, filename)
 rm("now", "filename", "sheets")
 
+
+################################################################################
 
 
 # Plot
