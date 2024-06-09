@@ -291,12 +291,16 @@ well_dataset <- well_dataset[c("UWI",
                                "Synchrony_Window",
                                "Minimum_Spike_Rate_for_Active_Electrode",
                                "Analysis_Duration(s)")]
-for (folder in folders) {
-  dest <- gsub("./", "", folder)
-  dest <- paste0("./original_files/", dest, "/")
-  file.rename(folder,dest)
+if (dir.exists("./original_files/data/")==FALSE){
+  dir.create("./original_files/data/")
 }
-file.move("MEA_analysis_index.xlsx", "./original_files/", overwrite=TRUE)
+for (folder in folders) {
+  dest <- gsub("^\\.\\/", "", folder)
+  dest <- paste0("./original_files/data/", dest)
+  system(paste("rsync -a", shQuote(folder), shQuote(dest)))
+  system(paste("rm -rf", shQuote(folder)))
+}
+file.move("MEA_analysis_index.xlsx", "./original_files/index/", overwrite=TRUE)
 rm("folder", "dest", "folders", "parameter_dataset")
 
 
