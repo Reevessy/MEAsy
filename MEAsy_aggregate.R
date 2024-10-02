@@ -565,9 +565,9 @@ rm("p")
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Number_of_Spikes_per_Network_Burst_per_Channel_Avg`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Spikes per Network Burst per Channel Avg",
+  labs(title = "Spikes per Network Burst per Channel",
        x = "",
-       y = "log(Spikes per Network Burst per Channel Avg)") +
+       y = "log(Spikes per Network Burst per Channel)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ggsave("12.well_within-network-bursts_firing-rate-avg.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
@@ -654,11 +654,13 @@ rm("p")
 
 # Combine plots
 combined_plot1 <- plot_grid(p1,p3,p4,p6,p16,p18,
-                           ncol = 2, nrow = 3, align = 'hv', rel_heights = c(1, 1))
+                           ncol = 2, nrow = 3, align = 'hv', rel_heights = c(1, 1),
+                           labels = c('A','B','C','D','E','F'))
 ggsave("combined_plots_1.pdf", plot = combined_plot1, width = 10, height = 12, units = "in", dpi = 1200)
 
 combined_plot2 <- plot_grid(p1,p3,p4,p6,p16,p9,p10,p12,
-                            ncol = 2, nrow = 4, align = 'hv', rel_heights = c(1, 1))
+                            ncol = 2, nrow = 4, align = 'hv', rel_heights = c(1, 1),
+                            labels = c('A','B','C','D','E','F','G','H'))
 ggsave("combined_plots_2.pdf", plot = combined_plot2, width = 10, height = 16, units = "in", dpi = 1200)
 
 
