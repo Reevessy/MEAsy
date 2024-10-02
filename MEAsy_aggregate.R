@@ -1,5 +1,5 @@
 # Load R packages
-lapply(c("tidyverse", "filesstrings", "expss", "readxl", "writexl"), 
+lapply(c("tidyverse", "filesstrings", "expss", "readxl", "writexl","cowplot"), 
        require, character.only = TRUE)
 
 
@@ -334,66 +334,18 @@ well_qc_dataset <- mutate(well_qc_dataset, `well_within-network-bursts_firing-ra
 well_qc_dataset <- mutate(well_qc_dataset, `well_percentage_bursting_electrodes` = `Number_of_Bursting_Electrodes` / `Number_of_Active_Electrodes` *100)
 
 ### well group
-well_WT_DMSO_000 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min" & Treatment == "DMSO")
-well_WT_DMSO_000$Group <- rep("WT_DMSO_Pre",nrow(well_WT_DMSO_000))
-well_WT_DHPG_000 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min" & Treatment == "DHPG")
-well_WT_DHPG_000$Group <- rep("WT_DHPG_Pre",nrow(well_WT_DHPG_000))
-well_WT_MPEP_000 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min" & Treatment == "MPEP")
-well_WT_MPEP_000$Group <- rep("WT_MPEP_Pre",nrow(well_WT_MPEP_000))
-well_WT_DMSO_060 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "060min" & Treatment == "DMSO")
-well_WT_DMSO_060$Group <- rep("WT_DMSO_60min",nrow(well_WT_DMSO_060))
-well_WT_DHPG_060 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "060min" & Treatment == "DHPG")
-well_WT_DHPG_060$Group <- rep("WT_DHPG_60min",nrow(well_WT_DHPG_060))
-well_WT_MPEP_060 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "060min" & Treatment == "MPEP")
-well_WT_MPEP_060$Group <- rep("WT_MPEP_60min",nrow(well_WT_MPEP_060))
-well_HET_DMSO_000 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min" & Treatment == "DMSO")
-well_HET_DMSO_000$Group <- rep("HET_DMSO_Pre",nrow(well_HET_DMSO_000))
-well_HET_DHPG_000 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min" & Treatment == "DHPG")
-well_HET_DHPG_000$Group <- rep("HET_DHPG_Pre",nrow(well_HET_DHPG_000))
-well_HET_MPEP_000 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min" & Treatment == "MPEP")
-well_HET_MPEP_000$Group <- rep("HET_MPEP_Pre",nrow(well_HET_MPEP_000))
-well_HET_DMSO_060 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "060min" & Treatment == "DMSO")
-well_HET_DMSO_060$Group <- rep("HET_DMSO_60min",nrow(well_HET_DMSO_060))
-well_HET_DHPG_060 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "060min" & Treatment == "DHPG")
-well_HET_DHPG_060$Group <- rep("HET_DHPG_60min",nrow(well_HET_DHPG_060))
-well_HET_MPEP_060 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "060min" & Treatment == "MPEP")
-well_HET_MPEP_060$Group <- rep("HET_MPEP_60min",nrow(well_HET_MPEP_060))
-well_qc_dataset <- rbind(well_WT_DMSO_000,
-                         well_WT_DHPG_000,
-                         well_WT_MPEP_000,
-                         well_WT_DMSO_060,
-                         well_WT_DHPG_060,
-                         well_WT_MPEP_060,
-                         well_HET_DMSO_000,
-                         well_HET_DHPG_000,
-                         well_HET_MPEP_000,
-                         well_HET_DMSO_060,
-                         well_HET_DHPG_060,
-                         well_HET_MPEP_060)
-well_qc_dataset$Group <- factor(well_qc_dataset$Group, levels = c("WT_DMSO_Pre",
-                                                                  "WT_DHPG_Pre",
-                                                                  "WT_MPEP_Pre",
-                                                                  "WT_DMSO_60min",
-                                                                  "WT_DHPG_60min",
-                                                                  "WT_MPEP_60min",
-                                                                  "HET_DMSO_Pre",
-                                                                  "HET_DHPG_Pre",
-                                                                  "HET_MPEP_Pre",
-                                                                  "HET_DMSO_60min",
-                                                                  "HET_DHPG_60min",
-                                                                  "HET_MPEP_60min"))
-rm("well_WT_DMSO_000",
-   "well_WT_DHPG_000",
-   "well_WT_MPEP_000",
-   "well_WT_DMSO_060",
-   "well_WT_DHPG_060",
-   "well_WT_MPEP_060",
-   "well_HET_DMSO_000",
-   "well_HET_DHPG_000",
-   "well_HET_MPEP_000",
-   "well_HET_DMSO_060",
-   "well_HET_DHPG_060",
-   "well_HET_MPEP_060")
+well_WT_000 <- filter(well_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min")
+well_WT_000$Group <- rep("WT_Baseline",nrow(well_WT_000))
+
+well_HET_000 <- filter(well_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min")
+well_HET_000$Group <- rep("HET_Baseline",nrow(well_HET_000))
+
+well_qc_dataset <- rbind(well_WT_000,
+                         well_HET_000)
+well_qc_dataset$Group <- factor(well_qc_dataset$Group, levels = c("WT_Baseline",
+                                                                  "HET_Baseline"))
+rm("well_WT_000", 
+   "well_HET_000")
 
 ## electrode_dataset qc
 electrode_qc_dataset <- c()
@@ -426,70 +378,25 @@ electrode_qc_dataset <- mutate(electrode_qc_dataset, `electrode_within-bursts_IS
 rm("electrode_subset", "analysis_duration", "active_threshold", "uwi", "UWIs", "UWI_qc")
 
 ### electrode group
-elec_WT_DMSO_000 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min" & Treatment == "DMSO")
-elec_WT_DMSO_000$Group <- rep("WT_DMSO_Pre",nrow(elec_WT_DMSO_000))
-elec_WT_DHPG_000 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min" & Treatment == "DHPG")
-elec_WT_DHPG_000$Group <- rep("WT_DHPG_Pre",nrow(elec_WT_DHPG_000))
-elec_WT_MPEP_000 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min" & Treatment == "MPEP")
-elec_WT_MPEP_000$Group <- rep("WT_MPEP_Pre",nrow(elec_WT_MPEP_000))
-elec_WT_DMSO_060 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "060min" & Treatment == "DMSO")
-elec_WT_DMSO_060$Group <- rep("WT_DMSO_60min",nrow(elec_WT_DMSO_060))
-elec_WT_DHPG_060 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "060min" & Treatment == "DHPG")
-elec_WT_DHPG_060$Group <- rep("WT_DHPG_60min",nrow(elec_WT_DHPG_060))
-elec_WT_MPEP_060 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "060min" & Treatment == "MPEP")
-elec_WT_MPEP_060$Group <- rep("WT_MPEP_60min",nrow(elec_WT_MPEP_060))
-elec_HET_DMSO_000 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min" & Treatment == "DMSO")
-elec_HET_DMSO_000$Group <- rep("HET_DMSO_Pre",nrow(elec_HET_DMSO_000))
-elec_HET_DHPG_000 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min" & Treatment == "DHPG")
-elec_HET_DHPG_000$Group <- rep("HET_DHPG_Pre",nrow(elec_HET_DHPG_000))
-elec_HET_MPEP_000 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min" & Treatment == "MPEP")
-elec_HET_MPEP_000$Group <- rep("HET_MPEP_Pre",nrow(elec_HET_MPEP_000))
-elec_HET_DMSO_060 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "060min" & Treatment == "DMSO")
-elec_HET_DMSO_060$Group <- rep("HET_DMSO_60min",nrow(elec_HET_DMSO_060))
-elec_HET_DHPG_060 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "060min" & Treatment == "DHPG")
-elec_HET_DHPG_060$Group <- rep("HET_DHPG_60min",nrow(elec_HET_DHPG_060))
-elec_HET_MPEP_060 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "060min" & Treatment == "MPEP")
-elec_HET_MPEP_060$Group <- rep("HET_MPEP_60min",nrow(elec_HET_MPEP_060))
-electrode_qc_dataset <- rbind(elec_WT_DMSO_000,
-                              elec_WT_DHPG_000,
-                              elec_WT_MPEP_000,
-                              elec_WT_DMSO_060,
-                              elec_WT_DHPG_060,
-                              elec_WT_MPEP_060,
-                              elec_HET_DMSO_000,
-                              elec_HET_DHPG_000,
-                              elec_HET_MPEP_000,
-                              elec_HET_DMSO_060,
-                              elec_HET_DHPG_060,
-                              elec_HET_MPEP_060)
-electrode_qc_dataset$Group <- factor(electrode_qc_dataset$Group, levels = c("WT_DMSO_Pre",
-                                                                            "WT_DHPG_Pre",
-                                                                            "WT_MPEP_Pre",
-                                                                            "WT_DMSO_60min",
-                                                                            "WT_DHPG_60min",
-                                                                            "WT_MPEP_60min",
-                                                                            "HET_DMSO_Pre",
-                                                                            "HET_DHPG_Pre",
-                                                                            "HET_MPEP_Pre",
-                                                                            "HET_DMSO_60min",
-                                                                            "HET_DHPG_60min",
-                                                                            "HET_MPEP_60min"))
-rm("elec_WT_DMSO_000",
-   "elec_WT_DHPG_000",
-   "elec_WT_MPEP_000",
-   "elec_WT_DMSO_060",
-   "elec_WT_DHPG_060",
-   "elec_WT_MPEP_060",
-   "elec_HET_DMSO_000",
-   "elec_HET_DHPG_000",
-   "elec_HET_MPEP_000",
-   "elec_HET_DMSO_060",
-   "elec_HET_DHPG_060",
-   "elec_HET_MPEP_060")
+elec_WT_000 <- filter(electrode_qc_dataset, Genotype == "ATF4WT" & Treatment_duration == "000min")
+elec_WT_000$Group <- rep("WT_Baseline",nrow(elec_WT_000))
+elec_HET_000 <- filter(electrode_qc_dataset, Genotype == "ATF4HET" & Treatment_duration == "000min")
+elec_HET_000$Group <- rep("HET_Baseline",nrow(elec_HET_000))
+
+electrode_qc_dataset <- rbind(elec_WT_000,
+                              elec_HET_000)
+electrode_qc_dataset$Group <- factor(electrode_qc_dataset$Group, levels = c("WT_Baseline",
+                                                                            "HET_Baseline"))
+rm("elec_WT_000",
+   "elec_HET_000")
 
 ## MPEP
-well_qc_dataset <- filter(well_qc_dataset, Treatment != "MPEP")
-electrode_qc_dataset <- filter(electrode_qc_dataset, Treatment != "MPEP")
+#well_qc_dataset <- filter(well_qc_dataset, Treatment != "MPEP")
+#electrode_qc_dataset <- filter(electrode_qc_dataset, Treatment != "MPEP")
+
+## Only pre
+#well_qc_dataset <- filter(well_qc_dataset, Treatment_duration == "000min")
+#electrode_qc_dataset <- filter(electrode_qc_dataset, Treatment_duration == "000min")
 
 
 ################################################################################
@@ -515,218 +422,244 @@ rm("now", "filename", "sheets")
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = log(`Mean_Firing_Rate_(Hz)`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Firing Rate (Hz)",
+  labs(title = "Firing Rate (Hz)",
        x = "",
        y = "log(Mean Firing Rate)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("1.electrode_spikes_firing-rate.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("1.electrode_spikes_firing-rate.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p1 <- p
 rm("p")
 
 # 2.electrode_spikes_ISI-CoV
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = `ISI_Coefficient_of_Variation`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Inter-Spike Interval Coefficient of Variation (lower value indicates higher regularity)",
+  labs(title = "Inter-Spike Interval Coefficient of Variation", #(lower value indicates higher regularity)
        x = "",
        y = "ISI Coefficient of Variation") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("2.electrode_spikes_ISI-CoV.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("2.electrode_spikes_ISI-CoV.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p2 <- p
 rm("p")
 
 # 3.electrode_bursts_burst-freq
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = log(`Burst_Frequency_(Hz)`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Burst Frequency (Hz)",
+  labs(title = "Burst Frequency (Hz)",
        x = "",
        y = "log(Burst Frequency)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("3.electrode_bursts_burst-freq.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("3.electrode_bursts_burst-freq.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p3 <- p
 rm("p")
 
 # 4.electrode_bursts_burst-duration-avg
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = log(`Burst_Duration_Avg_(s)`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Burst Duration Avg (s)",
+  labs(title = "Burst Duration Avg (s)",
        x = "",
        y = "log(Burst Duration Avg)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("4.electrode_bursts_burst-duration-avg.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("4.electrode_bursts_burst-duration-avg.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p4 <- p
 rm("p")
 
 # 5.electrode_bursts_IBI-CoV
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = `IBI_Coefficient_of_Variation`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Inter-Burst Interval Coefficient of Variation (lower value indicates higher regularity)",
+  labs(title = "Inter-Burst Interval Coefficient of Variation",#(lower value indicates higher regularity)
        x = "",
        y = "IBI Coefficient of Variation") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("5.electrode_bursts_IBI-CoV.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("5.electrode_bursts_IBI-CoV.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p5 <- p
 rm("p")
 
 # 6.electrode_within-bursts_firing-rate
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = log(`Number_of_Spikes_per_Burst_Avg`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Number of Spikes per Burst Avg",
+  labs(title = "Number of Spikes per Burst Avg",
        x = "",
        y = "log(Number of Spikes per Burst Avg)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("6.electrode_within-bursts_firing-rate.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("6.electrode_within-bursts_firing-rate.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p6 <- p
 rm("p")
 
 # 7.electrode_within-bursts_ISI-CoV
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = `electrode_within-bursts_ISI-CoV`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Inter-Spike Interval Coefficient of Variation within Bursts(lower value indicates higher regularity)",
+  labs(title = "Inter-Spike Interval Coefficient of Variation within Bursts",#(lower value indicates higher regularity)
        x = "",
        y = "ISI Coefficient of Variation within bursts") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("7.electrode_within-bursts_ISI-CoV.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("7.electrode_within-bursts_ISI-CoV.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p7 <- p
 rm("p")
 
 # 8.electrode_percentage_bursting_spikes
 p <- ggplot(electrode_qc_dataset, aes(x = Group, y = `Burst_Percentage`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_boxplot(width = 0.1, outlier.shape = NA) +
-  labs(title = "Electrode dataset: Bursting Spikes Percentage (%)",
+  labs(title = "Bursting Spikes Percentage (%)",
        x = "",
        y = "Burst percentage (%)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("8.electrode_percentage_bursting_spikes.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("8.electrode_percentage_bursting_spikes.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p8 <- p
 rm("p")
 
 # 9.well_network-bursts_burst-freq
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Network_Burst_Frequency(Hz)`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Network Burst Frequency (Hz)",
+  labs(title = "Network Burst Frequency (Hz)",
        x = "",
        y = "log(Network Burst Frequency)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("9.well_network-bursts_burst-freq.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("9.well_network-bursts_burst-freq.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p9 <- p
 rm("p")
 
 # 10.well_network-bursts_burst-duration-avg
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Network_Burst_Duration_Avg(sec)`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Network Burst Duration Avg (s)",
+  labs(title = "Network Burst Duration Avg (s)",
        x = "",
        y = "log(Network Burst Duration Avg)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("10.well_network-bursts_burst-duration-avg.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("10.well_network-bursts_burst-duration-avg.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p10 <- p
 rm("p")
 
 # 11.well_network-bursts_IBI-CoV
 p <- ggplot(well_qc_dataset, aes(x = Group, y = `Network_IBI_Coefficient_of_Variation`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Network Inter-Burst Interval Coefficient of Variation (lower value indicates higher regularity)",
+  labs(title = "Network Inter-Burst Interval Coefficient of Variation (lower value indicates higher regularity)",
        x = "",
        y = "Network IBI Coefficient of Variation") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("11.well_network-bursts_IBI-CoV.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("11.well_network-bursts_IBI-CoV.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p11 <- p
 rm("p")
 
 # 12.well_within-network-bursts_firing-rate-avg
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Number_of_Spikes_per_Network_Burst_per_Channel_Avg`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Number of Spikes per Network Burst per Channel Avg",
+  labs(title = "Spikes per Network Burst per Channel Avg",
        x = "",
-       y = "log(Number of Spikes per Network Burst per Channel Avg)") +
+       y = "log(Spikes per Network Burst per Channel Avg)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("12.well_within-network-bursts_firing-rate-avg.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("12.well_within-network-bursts_firing-rate-avg.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p12 <- p
 rm("p")
 
 # 13.well_within-network-bursts_ISI-CoV
 p <- ggplot(well_qc_dataset, aes(x = Group, y = `Network_ISI_Coefficient_of_Variation`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Network Inter-Spike Interval Coefficient of Variation (lower value indicates higher regularity)",
+  labs(title = "Network Inter-Spike Interval Coefficient of Variation (lower value indicates higher regularity)",
        x = "",
        y = "Network ISI Coefficient of Variation") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("13.well_within-network-bursts_ISI-CoV.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("13.well_within-network-bursts_ISI-CoV.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p13 <- p
 rm("p")
 
 # 14.well_synchrony_cross-correlation-area
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Area_Under_Normalized_Cross_Correlation`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Area Under Normalized Cross Correlation (higher value indicates greater synchrony)",
+  labs(title = "Area Under Normalized Cross Correlation",#(higher value indicates greater synchrony)
        x = "",
        y = "log(Area Under Normalized Cross Correlation)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("14.well_synchrony_cross-correlation-area.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("14.well_synchrony_cross-correlation-area.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p14 <- p
 rm("p")
 
 # 15.well_synchrony_cross-correlation-width
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Width_at_Half_Height_of_Normalized_Cross_Correlation`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Width at Half Height of Normalized Cross Correlation (lower value indicates greater synchrony)",
+  labs(title = "Width at Half Height of Normalized Cross Correlation (lower value indicates greater synchrony)",
        x = "",
        y = "log(Width at Half Height of Normalized Cross Correlation)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("15.well_synchrony_cross-correlation-width.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("15.well_synchrony_cross-correlation-width.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p15 <- p
 rm("p")
 
 # 16.well_synchrony_synchrony-index
 p <- ggplot(well_qc_dataset, aes(x = Group, y = log(`Synchrony_Index`), fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Synchrony Index (higher value indicates greater synchrony)",
+  labs(title = "Synchrony Index", #(higher value indicates greater synchrony)
        x = "",
        y = "log(Synchrony Index)") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("16.well_synchrony_synchrony-index.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("16.well_synchrony_synchrony-index.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p16 <- p
 rm("p")
 
 # 17.well_percentage_bursting_electrodes
 p <- ggplot(well_qc_dataset, aes(x = Group, y = `well_percentage_bursting_electrodes`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Bursting Electrodes Percentage (%)",
+  labs(title = "Bursting Electrodes Percentage (%)",
        x = "",
        y = "Bursting Electrodes Percentage") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("17.well_percentage_bursting_electrodes.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("17.well_percentage_bursting_electrodes.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p17 <- p
 rm("p")
 
 # 18.well_percentage_network_bursting_spikes
 p <- ggplot(well_qc_dataset, aes(x = Group, y = `Network_Burst_Percentage`, fill = Group)) +
   geom_violin(scale = "width", trim = FALSE) +
   geom_jitter(width = 0.1, height = 0, alpha = 0.3) +
-  labs(title = "Well dataset: Network Burst Percentage (%)",
+  labs(title = "Network Burst Percentage (%)",
        x = "",
        y = "Network Burst Percentage") +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave("18.well_percentage_network_bursting_spikes.pdf", plot = p, width = 10, height = 6, units = "in", dpi = 1200)
+ggsave("18.well_percentage_network_bursting_spikes.pdf", plot = p, width = 5, height = 4, units = "in", dpi = 1200)
+p18 <- p
 rm("p")
 
+# Combine plots
+combined_plot1 <- plot_grid(p1,p3,p4,p6,p16,p18,
+                           ncol = 2, nrow = 3, align = 'hv', rel_heights = c(1, 1))
+ggsave("combined_plots_1.pdf", plot = combined_plot1, width = 10, height = 12, units = "in", dpi = 1200)
+
+combined_plot2 <- plot_grid(p1,p3,p4,p6,p16,p9,p10,p12,
+                            ncol = 2, nrow = 4, align = 'hv', rel_heights = c(1, 1))
+ggsave("combined_plots_2.pdf", plot = combined_plot2, width = 10, height = 16, units = "in", dpi = 1200)
 
 
 # exit
