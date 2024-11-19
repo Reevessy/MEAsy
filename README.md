@@ -4,5 +4,5 @@
 
 ## To-do:
 
-- [ ] add *t*-test
+- [ ] add *t*-test ([example](https://github.com/Reevessy/MEAsy/blob/main/violin%20plot%20t-test.jpg))
 - [ ] calculate well values from eletrode values
